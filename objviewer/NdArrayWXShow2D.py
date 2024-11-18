@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-gui_pyside
-显示ndarray 平面2d 多维在QSpinBox中选择
+gui_wxpython
+显示ndarray 平面2d 多维在SpinCtrl中选择
 """
 from typing import Union, List
 
