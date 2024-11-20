@@ -5,7 +5,7 @@ setup(
     name='objviewer',  # 你的包名
     version='0.0.1',  # 版本号
     author='Yifan Hong',  # 作者名字
-    author_email='1819642087@qq.com',  # 作者邮箱
+    author_email='hong.yf@qq.com',  # 作者邮箱
     description=
     'A display that displays exclusives and variables, similar to the `Variable Explorer` of `spyder`.',  # 简短描述
     long_description=open('README.md').read(),  # 长描述，通常是README的内容
