@@ -3,13 +3,13 @@
 gui_wxpython
 显示ndarray 平面2d 多维在SpinCtrl中选择
 """
-from typing import Union, List
+from typing import List, Union
 
-import numpy as np, wx
+import numpy as np
+import wx
+from mywxwidgets.grid import COPY, gridnumpy
 from numpy import ndarray
 from pandas import DataFrame, Series
-
-from mywxwidgets.grid import gridnumpy, COPY
 
 FONT0 = gridnumpy.FONT0
 FONT1 = (10, *FONT0[1:])
@@ -28,7 +28,7 @@ class DataBase(gridnumpy.DataBaseChararray):
             if val_.imag == 0:
                 val_ = val_.real
             res = self.show_type.format(val_)
-        except:
+        except Exception:
             res = str(val)
         return res
 
@@ -56,7 +56,7 @@ def _line_v(parent):
 
 class MainWin(wx.Frame):
 
-    def __init__(self, parent, data: Union[ndarray, DataFrame, Series]) -> None:
+    def __init__(self, parent, data: Union[ndarray, DataFrame, Series]):
         wx.Frame.__init__(self, parent, size=(800, 700))
         # self.setWindowTitle(title)
         if not isinstance(data, (ndarray, DataFrame, Series)):
@@ -184,7 +184,7 @@ class MainWin(wx.Frame):
 def ndarrayWXShow2D(data, title=''):
     """
     显示ndarray的wx实现
-    
+
     :param data: numpy array or pandas DataFrame/Series
     :param title: str, 窗口标题
     :return: None
