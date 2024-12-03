@@ -28,7 +28,7 @@ class DataBase(gridnumpy.DataBaseChararray):
             if val_.imag == 0:
                 val_ = val_.real
             res = self.show_type.format(val_)
-        except Exception:
+        except:
             res = str(val)
         return res
 
@@ -181,7 +181,7 @@ class MainWin(wx.Frame):
         self.Refresh()
 
 
-def ndarrayWXShow2D(data, title=''):
+def ndarray_wxshow_2d(data, title=''):
     """
     显示ndarray的wx实现
 
@@ -211,4 +211,4 @@ if __name__ == '__main__':
     # a1 = nar(['0,0', '1,0'])
     # a1 = DataFrame([[1, 2], [2, 3]], index=['a0', 'a1'], columns=['b1', 'b2'])
     # a1 = {'a0': [1, 2], 'a1': [2, 3]}
-    ndarrayWXShow2D(a1, 'a1')
+    ndarray_wxshow_2d(a1, 'a1')

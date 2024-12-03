@@ -6,7 +6,8 @@ gui tools
 - mplWXWindow   使用 wx 的 matplotlib 图形窗口
 - ndarrayWXShow2D  使用 wx 的 ndarray 查看器
 """
-from .NdArrayWXShow2D import ndarrayWXShow2D
+from .NdArrayWXShow2D import ndarray_wxshow_2d
 from .obj_viewer import objviewer, varviewer
 
-__all__ = ['objviewer', 'varviewer', 'ndarrayWXShow2D']
+__all__ = ['objviewer', 'varviewer', 'ndarray_wxshow_2d']
+__version__ = '0.0.2'

@@ -198,7 +198,7 @@ class ObjectViewerFrame(ViewerFrame):
         for v in dirs:
             try:
                 obj_ = getattr(_obj, v)
-            except Exception:
+            except:
                 continue
 
             res = set_dr_list(obj_, v)
@@ -295,6 +295,10 @@ class VariableViewerFrame(ViewerFrame):
 
 # %% 对外接口
 def objviewer(obj, name: str = '') -> None:
+    """
+    对象查看器
+    -----
+    """
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
     app = wx.App()
     frame = ObjectViewerFrame(None, obj, name)
@@ -302,15 +306,16 @@ def objviewer(obj, name: str = '') -> None:
     app.MainLoop()
 
 
-def varviewer(args: Dict[str, object] = locals()) -> None:
+def varviewer(kwargs: Dict[str, object] = locals()) -> None:
     """
     变量空间查看器
     -----
     不可以使用默认参数直接 varViewer(), 需要在所需空间下执行 varViewer(locals())
     """
-    assert isinstance(args, dict)
+    if not isinstance(kwargs, dict):
+        raise TypeError('kwargs must be dict')
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
     app = wx.App()
-    frame = VariableViewerFrame(args)
+    frame = VariableViewerFrame(kwargs)
     frame.Show()
     app.MainLoop()
