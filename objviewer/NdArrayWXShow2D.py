@@ -15,7 +15,7 @@ FONT0 = gridnumpy.FONT0
 FONT1 = (10, *FONT0[1:])
 
 
-class DataBase(gridnumpy.DataBaseChararray):
+class DataBase(gridnumpy.DataBaseNP):
 
     def __init__(self, data):
         super().__init__(data)
@@ -34,6 +34,7 @@ class DataBase(gridnumpy.DataBaseChararray):
 
 
 class Grid(gridnumpy.Grid):
+    dataBase: DataBase
     _MENU_ITEM = ((COPY, '复制  Ctrl+C'), )
 
     def __init__(self, parent, data=None):
