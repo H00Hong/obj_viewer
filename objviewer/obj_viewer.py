@@ -116,6 +116,7 @@ class ViewerFrame(wx.Frame):
                  parent=None,
                  dr=(),
                  col=[('name', 210), ('type', 280), ('size', ), ('value', )]):
+        ctypes.windll.shcore.SetProcessDpiAwareness(2)
         wx.Frame.__init__(self, parent=parent, title='对象查看器', size=(1200, 700))
 
         self.dvc = dv.DataViewCtrl(self,
@@ -300,7 +301,7 @@ def objviewer(obj, name: str = '') -> None:
     对象查看器
     -----
     """
-    ctypes.windll.shcore.SetProcessDpiAwareness(2)
+    # ctypes.windll.shcore.SetProcessDpiAwareness(2)
     app = wx.App()
     frame = ObjectViewerFrame(None, obj, name)
     frame.Show()
@@ -315,7 +316,7 @@ def varviewer(kwargs: Dict[str, object] = locals()) -> None:
     """
     if not isinstance(kwargs, dict):
         raise TypeError('kwargs must be dict')
-    ctypes.windll.shcore.SetProcessDpiAwareness(1)
+    # ctypes.windll.shcore.SetProcessDpiAwareness(2)
     app = wx.App()
     frame = VariableViewerFrame(kwargs)
     frame.Show()
