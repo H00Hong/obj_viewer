@@ -261,6 +261,7 @@ class VariableViewerFrame(ViewerFrame):
                                                            ('size', ),
                                                            ('value', )])
         self.SetTitle('变量查看器')
+        self.dvc.Expand(self.model.GetItemWithIndex((4, )))
 
     def OnLeftDoubleClick(self, event):
         # print('OnLeftDoubleClick')
@@ -299,7 +300,7 @@ def objviewer(obj, name: str = '') -> None:
     对象查看器
     -----
     """
-    ctypes.windll.shcore.SetProcessDpiAwareness(1)
+    ctypes.windll.shcore.SetProcessDpiAwareness(2)
     app = wx.App()
     frame = ObjectViewerFrame(None, obj, name)
     frame.Show()
