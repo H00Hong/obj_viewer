@@ -11,7 +11,7 @@ from mywxwidgets.grid import COPY, gridnumpy
 from numpy import ndarray
 from pandas import DataFrame, Series
 
-FONT0 = gridnumpy.FONT0
+FONT0 = gridnumpy.gridbase.FONT0
 FONT1 = (10, *FONT0[1:])
 
 

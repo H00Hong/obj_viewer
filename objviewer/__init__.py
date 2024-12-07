@@ -8,4 +8,4 @@ from .NdArrayWXShow2D import ndarray_wxshow_2d
 from .obj_viewer import objviewer, varviewer
 
 __all__ = ['objviewer', 'varviewer', 'ndarray_wxshow_2d']
-__version__ = '0.0.3'
+__version__ = '0.0.4'
