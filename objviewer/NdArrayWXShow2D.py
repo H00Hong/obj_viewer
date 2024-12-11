@@ -15,30 +15,12 @@ FONT0 = gridnumpy.gridbase.FONT0
 FONT1 = (10, *FONT0[1:])
 
 
-class DataBase(gridnumpy.DataBaseNP):
-
-    def __init__(self, data):
-        super().__init__(data)
-        self.show_type = '{:.6g}'
-
-    def GetValueFunc(self, data: np.char.chararray, row: int, col: int) -> str:
-        val = data[row, col]
-        try:
-            val_ = np.complex128(val)
-            if val_.imag == 0:
-                val_ = val_.real
-            res = self.show_type.format(val_)
-        except:
-            res = str(val)
-        return res
-
-
 class Grid(gridnumpy.Grid):
-    dataBase: DataBase
+
     _MENU_ITEM = ((COPY, '复制  Ctrl+C'), )
 
     def __init__(self, parent, data=None):
-        super().__init__(parent, DataBase(data))
+        super().__init__(parent, gridnumpy.DataBaseNP(data, show_format='{:.6g}'))
 
     def onKeyDown(self, event: wx.KeyEvent):
         key_code = event.GetKeyCode()  # 获取按键编码
@@ -153,10 +135,7 @@ class MainWin(wx.Frame):
         self.layout_spin.Add(self.combo_t, 0, wx.ALIGN_CENTER | wx.EAST, 5)
         self.layout0.Add(self.layout_spin, 0, wx.ALL | wx.EXPAND, 5)
 
-    def _set_spin(
-        self,
-        id: int,
-    ):
+    def _set_spin(self, id: int):
         spin = wx.SpinCtrl(self,
                            value='0',
                            min=-self.data.shape[id],
@@ -176,8 +155,8 @@ class MainWin(wx.Frame):
         self.tab.SetData(self.data[index])
 
     def _spin_type_change(self, event: wx.CommandEvent):
-        self.tab.dataBase.show_type = '{:.' + str(self.spin_n.GetValue(
-        )) + self.combo_t.GetStringSelection() + '}'  # type: ignore
+        self.tab.dataBase.SetShowFormat('{:.' + str(self.spin_n.GetValue()) +
+                                        self.combo_t.GetStringSelection() + '}')
         self.tab.dataBase.ValuesUpdated()
         self.Refresh()
 
