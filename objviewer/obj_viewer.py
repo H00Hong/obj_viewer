@@ -5,7 +5,7 @@ from typing import Dict, Sequence
 import wx
 from mywxwidgets.dataview import DataRow, DataViewModel, dv
 
-from .NdArrayWXShow2D import MainWin
+from .NdArrayWXShow2D import MainWin, Series
 
 FONT0 = (14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL,
          False, 'JetBrains Mono')
@@ -34,7 +34,7 @@ class _ShowWin(wx.Frame):
 
     def on_enter(self, event) -> None:
         # print('on_enter')
-        b = [i in self._val[1] for i in ('ndarray', 'DataFrame', 'Series')]
+        b = [i in self._val[1] for i in ('ndarray', 'DataFrame')]
         obj = self._val[-1]
         name_ = self._val[0]
         if any(b):
@@ -49,6 +49,10 @@ class _ShowWin(wx.Frame):
         elif isinstance(obj, dict):
             win_obj = DictViewerFrame
             name = '字典查看器    ' + name_
+        elif isinstance(obj, Series):
+            win_obj = DictViewerFrame
+            name = '字典查看器    ' + name_
+            obj = obj.to_dict()
         else:
             win_obj = ObjectViewerFrame
             name = '对象查看器    ' + name_
@@ -147,7 +151,7 @@ def get_len(o):
             len_ = getattr(o, 'shape')
         else:
             len_ = len(o)
-    except Exception:
+    except:
         len_ = 1
     return len_
 
@@ -156,7 +160,9 @@ def set_dr_list(obj, name):
     res = [
         name,
         str(type(obj))[8:-2],
-        str(get_len(obj)), obj if isinstance(obj, str) else str(obj), obj
+        str(get_len(obj)),
+        obj if isinstance(obj, str) else str(obj),
+        obj
     ]
     return res
 
@@ -227,7 +233,7 @@ class DictViewerFrame(ObjectViewerFrame):
         ObjectViewerFrame.__init__(self,
                                    parent,
                                    obj,
-                                   col=[('name', 210), ('value_type', 280),
+                                   col=[('key', 210), ('value_type', 280),
                                         ('size', ), ('value', )])
 
     def _set(self, _obj: dict, name: str = ''):
