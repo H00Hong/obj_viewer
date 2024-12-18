@@ -5,7 +5,9 @@ from typing import Dict, Sequence
 import wx
 from mywxwidgets.dataview import DataRow, DataViewModel, dv
 
-from .NdArrayWXShow2D import MainWin, Series
+from .NdArrayWXShow2D import DataFrame
+from .NdArrayWXShow2D import MainWin as NDArrayViewerFrame
+from .NdArrayWXShow2D import Series, ndarray
 
 FONT0 = (14, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL,
          False, 'JetBrains Mono')
@@ -34,30 +36,32 @@ class _ShowWin(wx.Frame):
 
     def on_enter(self, event) -> None:
         # print('on_enter')
-        b = [i in self._val[1] for i in ('ndarray', 'DataFrame')]
         obj = self._val[-1]
         name_ = self._val[0]
-        if any(b):
-            win_obj = MainWin
+        if isinstance(obj, Series):
+            if obj.dtype == 'object':
+                win = DictViewerFrame(self, obj.to_dict())
+            else:
+                try:
+                    win = NDArrayViewerFrame(self, obj)
+                except:
+                    win = DictViewerFrame(self, obj.to_dict())
+            name = name_
+        elif isinstance(obj, (ndarray, DataFrame)):
+            win = NDArrayViewerFrame(self, obj)
             name = name_
         elif self._val[2] == '0':
-            win_obj = ObjectViewerFrame
+            win = ObjectViewerFrame(self, obj)
             name = '对象查看器    ' + name_
         elif isinstance(obj, Sequence):
-            win_obj = SeqViewerFrame
+            win = SeqViewerFrame(self, obj)
             name = '序列查看器    ' + name_
         elif isinstance(obj, dict):
-            win_obj = DictViewerFrame
+            win = DictViewerFrame(self, obj)
             name = '字典查看器    ' + name_
-        elif isinstance(obj, Series):
-            win_obj = DictViewerFrame
-            name = '字典查看器    ' + name_
-            obj = obj.to_dict()
         else:
-            win_obj = ObjectViewerFrame
+            win = ObjectViewerFrame(self, obj)
             name = '对象查看器    ' + name_
-
-        win = win_obj(self, obj)  # type: ignore
         win.SetTitle(name)
         win.Show()
 

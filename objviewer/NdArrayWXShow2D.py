@@ -78,7 +78,7 @@ class MainWin(wx.Frame):
         elif self.data.ndim == 2:
             dat = self.data
         else:
-            dat = self.data[tuple(0 for _ in range(self.data.ndim - 2))]
+            dat = self.data[(0,)*(self.data.ndim - 2)]
 
         self.tab = Grid(self, data=dat)
 
