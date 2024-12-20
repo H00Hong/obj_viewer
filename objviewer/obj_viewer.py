@@ -48,7 +48,13 @@ class _ShowWin(wx.Frame):
                     win = DictViewerFrame(self, obj.to_dict())
             name = name_
         elif isinstance(obj, (ndarray, DataFrame)):
-            win = NDArrayViewerFrame(self, obj)
+            if obj.dtype == 'object':
+                try:
+                    win = NDArrayViewerFrame(self, obj.astype(str))
+                except:
+                    win = SeqViewerFrame(self, obj)
+            else:
+                win = NDArrayViewerFrame(self, obj)
             name = name_
         elif self._val[2] == '0':
             win = ObjectViewerFrame(self, obj)
