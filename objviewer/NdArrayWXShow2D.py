@@ -7,12 +7,12 @@ from typing import List, Union
 
 import numpy as np
 import wx
-from mywxwidgets.grid import COPY, gridnumpy
+from mywxwidgets.grid import COPY, gridnumpy, gridbase
 from numpy import ndarray
 from pandas import DataFrame, Series
 
-FONT0 = wx.FontInfo(14).FaceName('Microsoft Yahei')
-FONT1 = wx.FontInfo(10).FaceName('Microsoft Yahei')
+FONT0 = gridbase.FONT0
+FONT1 = (10, *FONT0)
 
 
 class Grid(gridnumpy.Grid):
@@ -54,7 +54,7 @@ class MainWin(wx.Frame):
     def _init_ui(self):
         self.layout0 = wx.BoxSizer(wx.VERTICAL)
         self.lab_data_info = wx.StaticText(self)
-        self.lab_data_info.SetFont(wx.Font(FONT0))
+        self.lab_data_info.SetFont(wx.Font(*FONT0))
         self.layout0.Add(self.lab_data_info, 0, wx.ALL | wx.EXPAND, 5)
 
         type_ = str(self.data.__class__).rpartition('.')[-1][:-2]
@@ -94,7 +94,8 @@ class MainWin(wx.Frame):
         self.tab.SetDefaultColSize(100, True)
 
     def _init_spin(self):
-        font0 = wx.Font(FONT0)
+        font0 = wx.Font(*FONT0)
+        font1 = wx.Font(*FONT1)
         self.layout_spin = wx.BoxSizer(wx.HORIZONTAL)
         self.lab_spin_begin = wx.StaticText(self, label='维度: ( ')
         self.lab_spin_begin.SetFont(font0)
@@ -116,7 +117,7 @@ class MainWin(wx.Frame):
         lab_n = wx.StaticText(self, label='显示数位: ')
         lab_n.SetFont(font0)
         self.spin_n = wx.SpinCtrl(self, value='6')
-        self.spin_n.SetFont(wx.Font(FONT1))
+        self.spin_n.SetFont(font1)
         self.spin_n.SetBackgroundColour(self._colour)
         self.spin_n.Bind(wx.EVT_SPINCTRL, self._spin_type_change)
         lab_t = wx.StaticText(self, label='显示类型: ')
@@ -124,7 +125,7 @@ class MainWin(wx.Frame):
         self.combo_t = wx.Choice(self, choices=['g', 'f', 'e', 'd'])
         self.combo_t.SetSelection(0)
         self.combo_t.Bind(wx.EVT_CHOICE, self._spin_type_change)
-        self.combo_t.SetFont(wx.Font(FONT1))
+        self.combo_t.SetFont(font1)
 
         self.layout_spin.Add(lab_spin_end, 0, wx.ALIGN_CENTER)
         self.layout_spin.Add(wx.StaticText(self, label=''), 1, wx.EXPAND)
@@ -140,14 +141,14 @@ class MainWin(wx.Frame):
                            value='0',
                            min=-self.data.shape[id],
                            max=self.data.shape[id] - 1)
-        spin.SetFont(wx.Font(FONT1))
+        spin.SetFont(wx.Font(*FONT1))
         spin.Bind(wx.EVT_SPINCTRL, self._spin_data_change)
         self.layout_spin.Add(spin, 0, wx.ALIGN_CENTER)
         self.spins.append(spin)
         spin.SetBackgroundColour(self._colour)
 
         lab_spin = wx.StaticText(self, label=', ')
-        lab_spin.SetFont(wx.Font(FONT0))
+        lab_spin.SetFont(wx.Font(*FONT0))
         self.layout_spin.Add(lab_spin, 0, wx.ALIGN_CENTER)
 
     def _spin_data_change(self, event: wx.SpinEvent):
