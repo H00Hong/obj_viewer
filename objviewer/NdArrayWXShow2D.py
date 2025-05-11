@@ -12,7 +12,7 @@ from numpy import ndarray
 from pandas import DataFrame, Series
 
 FONT0 = gridbase.FONT0
-FONT1 = (10, *FONT0)
+FONT1 = (10, *FONT0[1:])
 
 
 class Grid(gridnumpy.Grid):
